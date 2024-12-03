@@ -289,7 +289,7 @@ Optional argument COMINT when non-nil runs the command in comint mode."
           (js-pkg-package-manager))))
 
 ;;;###autoload
-(define-globalized-minor-mode node-package-global-mode
+(define-globalized-minor-mode js-pkg-global-mode
   js-pkg-mode
   js-pkg-mode)
 
