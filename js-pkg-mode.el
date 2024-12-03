@@ -1,4 +1,4 @@
-;;; js-pkg-mode --- minor mode for working with npm projects
+;;; js-pkg-mode --- minor mode for working with javascript projects
 
 ;; Version: 1.0.0
 ;; Author: Ovi Stoica <ovidiu.stoica1094@gmail.com>
