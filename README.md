@@ -9,9 +9,6 @@ A comprehensive [Emacs](https://www.gnu.org/software/emacs/) minor mode for work
 
 ## Installation
 
-### Via MELPA (Recommended)
-The package is available on [MELPA](https://melpa.org/#/). Install using your preferred package manager.
-
 ### straight.el
 ```elisp
 (straight-use-package
