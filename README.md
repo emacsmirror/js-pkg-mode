@@ -10,7 +10,18 @@ A comprehensive [Emacs](https://www.gnu.org/software/emacs/) minor mode for work
 ## Installation
 
 ### Via MELPA (Recommended)
-The package is available on [MELPA](https://github.com/milkypostman/melpa). Install using your preferred package manager.
+The package is available on [MELPA](https://melpa.org/#/). Install using your preferred package manager.
+
+### straight.el
+```elisp
+(straight-use-package
+ '(js-pkg-mode :type git :host github :repo "ovistoica/js-pkg-mode"))
+
+;; or
+(use-package js-pkg-mode
+  :straight '(js-pkg-mode :type git :host github :repo "ovistoica/js-pkg-mode")
+  :init (js-pkg-global-mode 1))
+```
 
 ### Manual Installation
 ```elisp
@@ -25,9 +36,6 @@ Enable the mode either globally or per-project:
 ```elisp
 ;; Global activation
 (js-pkg-global-mode)
-
-;; Or per-project using directory local variables
-((nil . ((mode . js-pkg))))
 ```
 
 The default keymap prefix is <kbd>C-c n</kbd> and can be customized via `js-pkg-mode-keymap-prefix`.

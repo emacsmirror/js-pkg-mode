@@ -57,21 +57,48 @@
   "Customization group for js-pkg."
   :group 'tools)
 
-(defvar js-pkg--project-file-name "package.json"
-  "The name of npm project files.")
+(defface js-pkg-mode-line-on-face '((t :inherit success))
+  "Face used in mode line to indicate that js-pkg is in effect.")
+
+(defface js-pkg-mode-line-error-face '((t :inherit error))
+  "Face used in mode line to indicate that js-pkg failed.")
+
+(defface js-pkg-mode-line-none-face '((t :inherit warning))
+  "Face used in mode line to indicate that js-pkg is not active.")
+
+
+(defcustom js-pkg-project-file-name "package.json"
+  "The name of npm project files."
+  :type 'string)
 
 (defcustom js-pkg-package-manager-type 'npm
-  "Package manager to use (npm, yarn, pnpm, or bun).
+  "Package manager to use (npm, yarn, pnpm, bun or deno).
 It is automatically infered based on the lockfile but you can overwrite."
   :type '(choice (const npm)
                  (const yarn)
                  (const pnpm)
+                 (const deno)
                  (const bun))
   :group 'js-pkg)
 
+(defun js-pkg--default-lighter-formatter (package-manager-sym)
+  "Format PACKAGE-MANAGER-SYM for modeline."
+  (concat " JS["
+          (propertize (symbol-name package-manager-sym)
+                      'face 'js-pkg-mode-line-on-face)
+          "]"))
 
-(defvar js-pkg--modeline-name " npm"
-  "Name of npm mode modeline name.")
+(defcustom js-pkg-lighter-formatter #'js-pkg--default-lighter-formatter
+  "Spec for the modeline based on the symbol."
+  :type 'function
+  :group 'js-pkg)
+
+(defcustom js-pkg-lighter '(:eval (funcall js-pkg-lighter-formatter js-pkg-package-manager-type))
+  "The mode line lighter for `envrc-mode'.
+You can set this to nil to disable the lighter."
+  :type 'sexp
+  :risky t)
+
 
 (defun js-pkg--ensure-npm-module ()
   "Asserts that you're currently inside an npm module."
@@ -82,15 +109,15 @@ It is automatically infered based on the lockfile but you can overwrite."
 If project file exists in the current working directory, or a
 parent directory recursively, return its path.  Otherwise, return
 nil."
-  (let ((dir (locate-dominating-file default-directory js-pkg--project-file-name)))
+  (let ((dir (locate-dominating-file default-directory js-pkg-project-file-name)))
     (unless dir
-      (error (concat "Error: cannot find " js-pkg--project-file-name)))
-    (concat dir js-pkg--project-file-name)))
+      (error (concat "Error: cannot find " js-pkg-project-file-name)))
+    (concat dir js-pkg-project-file-name)))
 
 
 (defun js-pkg--lock-file ()
   "Return path to the package lock file, or nil."
-  (let* ((dir (locate-dominating-file default-directory js-pkg--project-file-name))
+  (let* ((dir (locate-dominating-file default-directory js-pkg-project-file-name))
          (lock-files '("package-lock.json" "deno.lock" "yarn.lock" "pnpm-lock.yaml" "bun.lock")))
     (when dir
       (cl-find-if (lambda (file)
@@ -254,7 +281,7 @@ Optional argument COMINT when non-nil runs the command in comint mode."
   "Customization group for js-pkg."
   :group 'convenience)
 
-(defcustom js-pkg-command-prefix "C-c n"
+(defcustom js-pkg-mode-keymap-prefix "C-c n"
   "Prefix for js-pkg."
   :type 'key-sequence
   :group 'js-pkg)
@@ -272,16 +299,16 @@ Optional argument COMINT when non-nil runs the command in comint mode."
     map)
   "Keymap for js-pkg commands.")
 
-(defvar js-pkg-keymap
+(defvar js-pkg-mode-keymap
   (let ((map (make-sparse-keymap)))
-    (define-key map (kbd js-pkg-command-prefix) js-pkg-command-keymap)
+    (define-key map (kbd js-pkg-mode-keymap-prefix) js-pkg-command-keymap)
     map)
-  "Keymap for `js-pkg'.")
+  "Keymap for `js-pkg-mode'.")
 
 ;;;###autoload
 (define-minor-mode js-pkg-mode
   "Minor mode for working with javascript projects."
-  :lighter js-pkg--modeline-name
+  :lighter js-pkg-lighter
   :keymap js-pkg-keymap
   :group 'js-pkg
   (when js-pkg-mode
