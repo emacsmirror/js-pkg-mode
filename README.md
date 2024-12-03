@@ -7,6 +7,8 @@ A comprehensive [Emacs](https://www.gnu.org/software/emacs/) minor mode for work
 - bun
 - deno
 
+This is a fork of [npm-mode](https://github.com/mojochao/npm-mode) that works with all modern javascript package managers.
+
 ## Installation
 
 ### straight.el
