@@ -309,7 +309,7 @@ Optional argument COMINT when non-nil runs the command in comint mode."
 (define-minor-mode js-pkg-mode
   "Minor mode for working with javascript projects."
   :lighter js-pkg-lighter
-  :keymap js-pkg-keymap
+  :keymap js-pkg-mode-keymap
   :group 'js-pkg
   (when js-pkg-mode
     (setq js-pkg-package-manager-type
