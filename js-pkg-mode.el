@@ -1,10 +1,10 @@
-;;; js-pkg-mode.el --- minor mode for working with javascript projects
+;;; js-pkg-mode.el --- Minor mode for working with javascript projects
 
 ;; Version: 1.0.0
 ;; Author: Ovi Stoica <ovidiu.stoica1094@gmail.com>
 ;; Url: https://github.com/ovistoica/js-pkg-mode
 ;; Keywords: convenience, project, javascript, package-manager
-;; Package-Requires: ((emacs "24.1"))
+;; Package-Requires: ((emacs "25.1"))
 
 ;; This file is NOT part of GNU Emacs.
 
@@ -153,8 +153,7 @@ nil."
            (maphash (lambda (key value)
                       (setq commands
                             (append commands
-                                    (list (list key (format "%s %s" "npm" key))))
-                            ))
+                                    (list (list key (format "%s %s" "npm" key))))))
                     value)
            commands)
           (t value))))
@@ -254,7 +253,7 @@ Optional argument COMINT when non-nil runs the command in comint mode."
     (js-pkg--exec-process cmd)))
 
 
-(defun npm-run--read-command ()
+(defun js-pkg-run--read-command ()
   "Prompt user to select a script from package.json scripts.
 Returns the selected script name as a string."
   (completing-read "Run script: " (js-pkg--get-project-scripts)))
@@ -265,7 +264,7 @@ Returns the selected script name as a string."
 SCRIPT is the npm script to run.
 Optional argument COMINT when non-nil runs the command in comint mode."
   (interactive
-   (list (npm-run--read-command)
+   (list (js-pkg-run--read-command)
          (consp current-prefix-arg)))
   (let ((pm-name (symbol-name js-pkg-package-manager-type)))
     (js-pkg--exec-process
