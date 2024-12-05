@@ -1,4 +1,4 @@
-;;; js-pkg-mode --- minor mode for working with javascript projects
+;;; js-pkg-mode.el --- minor mode for working with javascript projects
 
 ;; Version: 1.0.0
 ;; Author: Ovi Stoica <ovidiu.stoica1094@gmail.com>
@@ -277,10 +277,6 @@ Optional argument COMINT when non-nil runs the command in comint mode."
   (interactive)
   (find-file (js-pkg--project-file)))
 
-(defgroup js-pkg nil
-  "Customization group for js-pkg."
-  :group 'convenience)
-
 (defcustom js-pkg-mode-keymap-prefix "C-c n"
   "Prefix for js-pkg."
   :type 'key-sequence
@@ -320,5 +316,5 @@ Optional argument COMINT when non-nil runs the command in comint mode."
   js-pkg-mode
   js-pkg-mode)
 
-(provide 'js-pkg)
+(provide 'js-pkg-mode)
 ;;; js-pkg-mode.el ends here
