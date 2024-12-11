@@ -64,5 +64,9 @@ The mode automatically detects which package manager to use based on your projec
 - `bun.lock` → bun
 - `deno.json`/`deno.jsonc` → deno
 
+## Suggestions
+
+For package import functionality see: [js-import](https://github.com/jakoblind/js-import)
+
 ## Credits
 This is a fork of [npm-mode](https://github.com/mojochao/npm-mode), expanded to support the broader JavaScript ecosystem.
