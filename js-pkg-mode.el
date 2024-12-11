@@ -179,14 +179,14 @@ Optional argument COMINT when non-nil runs the command in comint mode."
     (message (concat "Running " cmd))
     (compile cmd comint)))
 
-(defun js-pkg-npm-clean ()
-  "Run the `npm list' command."
+(defun js-pkg-clean ()
+  "Remove node_modules."
   (interactive)
   (let ((dir (concat (file-name-directory (js-pkg--ensure-npm-module)) "node_modules")))
     (if (file-directory-p dir)
         (when (yes-or-no-p (format "Are you sure you wish to delete %s?" dir))
           (js-pkg--exec-process (format "rm -rf %s" dir)))
-      (message (format "%s has already been cleaned" dir)))))
+      (message "%s has already been cleaned" dir))))
 
 (defun js-pkg-init ()
   "Initialize a new javascript project.  Prompt for package manager choice."
@@ -291,6 +291,7 @@ Optional argument COMINT when non-nil runs the command in comint mode."
     (define-key map "l" 'js-pkg-list)
     (define-key map "r" 'js-pkg-run)
     (define-key map "v" 'js-pkg-visit-project-file)
+    (define-key map "c" 'js-pkg-clean)
     map)
   "Keymap for js-pkg commands.")
 
