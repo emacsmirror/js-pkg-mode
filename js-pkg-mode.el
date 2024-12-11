@@ -124,14 +124,14 @@ nil."
                     (file-exists-p (concat dir file)))
                   lock-files))))
 
-(defun js-pkg-lockfile->package-manager (lock-file)
-  "Given LOCK-FILE type, output package-manager used in the project."
+(defun js-pkg-lockfile->package-manager (lock-file_)
+  "Given LOCK-FILE_ type, output package-manager used in the project."
   (cond
-   ((string= lock-file "package-lock.json") 'npm)
-   ((string= lock-file "yarn.lock") 'yarn)
-   ((string= lock-file "pnpm-lock.yaml") 'pnpm)
-   ((string= lock-file "bun.lock") 'bun)
-   ((string= lock-file "deno.lock") 'deno)))
+   ((string= lock-file_ "package-lock.json") 'npm)
+   ((string= lock-file_ "yarn.lock") 'yarn)
+   ((string= lock-file_ "pnpm-lock.yaml") 'pnpm)
+   ((string= lock-file_ "bun.lock") 'bun)
+   ((string= lock-file_ "deno.lock") 'deno)))
 
 
 (defun js-pkg-package-manager ()
