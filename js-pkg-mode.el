@@ -276,9 +276,21 @@ Optional argument COMINT when non-nil runs the command in comint mode."
   (interactive)
   (find-file (js-pkg--project-file)))
 
-(defcustom js-pkg-mode-keymap-prefix "C-c n"
-  "Prefix for js-pkg."
-  :type 'key-sequence
+(defun js-pkg--update-keymap ()
+  "Update the js-pkg-mode keymap based on the current prefix setting."
+  (setq js-pkg-mode-keymap (make-sparse-keymap))
+  (when js-pkg-mode-keymap-prefix
+    (define-key js-pkg-mode-keymap (kbd js-pkg-mode-keymap-prefix) js-pkg-command-keymap)))
+
+(defcustom js-pkg-mode-keymap-prefix nil
+  "Prefix for js-pkg keybindings.
+When nil, no keybindings are active. Set this to a key sequence
+like \"C-c n\" to enable keybindings with that prefix."
+  :type '(choice (const :tag "No keybindings" nil)
+                 key-sequence)
+  :set (lambda (symbol value)
+         (set-default symbol value)
+         (js-pkg--update-keymap))
   :group 'js-pkg)
 
 (defvar js-pkg-command-keymap
@@ -295,10 +307,7 @@ Optional argument COMINT when non-nil runs the command in comint mode."
     map)
   "Keymap for js-pkg commands.")
 
-(defvar js-pkg-mode-keymap
-  (let ((map (make-sparse-keymap)))
-    (define-key map (kbd js-pkg-mode-keymap-prefix) js-pkg-command-keymap)
-    map)
+(defvar js-pkg-mode-keymap (make-sparse-keymap)
   "Keymap for `js-pkg-mode'.")
 
 ;;;###autoload

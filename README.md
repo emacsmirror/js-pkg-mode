@@ -19,7 +19,9 @@ This is a fork of [npm-mode](https://github.com/mojochao/npm-mode) that works wi
 ;; or
 (use-package js-pkg-mode
   :straight '(js-pkg-mode :type git :host github :repo "ovistoica/js-pkg-mode")
-  :init (js-pkg-global-mode 1))
+  :config
+    (setq js-pkg-mode-keymap-prefix "C-c n")
+    (js-pkg-global-mode 1))
 ```
 
 ### Manual Installation
@@ -37,7 +39,7 @@ Enable the mode either globally or per-project:
 (js-pkg-global-mode)
 ```
 
-The default keymap prefix is <kbd>C-c n</kbd> and can be customized via `js-pkg-mode-keymap-prefix`.
+The recommended keymap prefix is <kbd>C-c n</kbd> and can be customized via `js-pkg-mode-keymap-prefix`.
 
 ## Features
 
