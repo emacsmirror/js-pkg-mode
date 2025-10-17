@@ -254,9 +254,11 @@ Optional argument COMINT when non-nil runs the command in comint mode."
 
 
 (defun js-pkg-run--read-command ()
-  "Prompt user to select a script from package.json scripts.
+  "Prompt user to select a script from package.json scripts or install.
 Returns the selected script name as a string."
-  (completing-read "Run script: " (js-pkg--get-project-scripts)))
+  (let* ((scripts (js-pkg--get-project-scripts))
+         (choices (cons "install" (mapcar #'car scripts))))
+    (completing-read "Run script: " choices)))
 
 
 (defun js-pkg-run (script &optional comint)
@@ -266,10 +268,12 @@ Optional argument COMINT when non-nil runs the command in comint mode."
   (interactive
    (list (js-pkg-run--read-command)
          (consp current-prefix-arg)))
-  (let ((pm-name (symbol-name js-pkg-package-manager-type)))
-    (js-pkg--exec-process
-     (format "%s run %s" pm-name script)
-     comint)))
+  (if (string= script "install")
+      (js-pkg-install)
+    (let ((pm-name (symbol-name js-pkg-package-manager-type)))
+      (js-pkg--exec-process
+       (format "%s run %s" pm-name script)
+       comint))))
 
 (defun js-pkg-visit-project-file ()
   "Visit the project file."
